@@ -3274,7 +3274,10 @@ return (function () {
             });
             triggerEvent(elt, 'htmx:beforeSend', responseInfo);
             var params = useUrlParams ? null : encodeParamsForBody(xhr, elt, filteredParameters)
-            xhr.send(params);
+            Promise.resolve(params).then(function (params) {
+                xhr.send(params);
+            });
+            // xhr.send(params);
             return promise;
         }
 
